@@ -24,22 +24,15 @@ livros = [
     }
 ]
 
-@app.route("/livros", methods=["GET"])
-def listar_livros():
-    return jsonify({"livros": livros})
 
-@app.route("/livros", methods=["GET"])
-def listar_livros():
-    return jsonify({"livros": livros})
-
-
-@app.route("/")
+@app.route("/", methods=["GET"])
 def pagina_inicial():
     return render_template("index.html")
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.route("/livros", methods=["GET"])
+def listar_livros():
+    return jsonify({"livros": livros})
 
 
 if __name__ == "__main__":
