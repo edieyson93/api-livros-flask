@@ -30,3 +30,27 @@ A API retorna três livros contendo:
 - titulo
 - autor
 - ano
+
+
+
+## Front-End
+
+O projeto possui uma interface web desenvolvida
+com HTML, CSS e JavaScript.
+
+A interface consulta a API Flask e apresenta
+os três livros em cartões.
+
+Para acessar o Front-End, execute:
+
+python app.py
+
+Depois abra no navegador:
+
+http://127.0.0.1:5000/
+
+## Back-End
+
+Para consultar os dados em JSON:
+
+http://127.0.0.1:5000/livros
