@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Virtual - API Flask</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f4f8;
+            color: #243047;
+        }
+
+        header {
+            background: #392171;
+            color: white;
+            padding: 45px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 32px;
+        }
+
+        header p {
+            margin: 0;
+            color: #e5dfff;
+        }
+
+        main {
+            max-width: 1050px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .grade {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #00000012;
+            border-top: 5px solid #6f42c1;
+        }
+
+        .card h2 {
+            color: #392171;
+            font-size: 21px;
+        }
+
+        .card p {
+            line-height: 1.6;
+        }
+
+        .etiqueta {
+            color: #6f42c1;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        #status {
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>📚 Biblioteca Virtual</h1>
+        <p>Catálogo de livros desenvolvido com Python e Flask</p>
+    </header>
+
+    <main>
+        <h2>Livros disponíveis</h2>
+        <p id="status">Carregando livros...</p>
+        <section id="lista" class="grade"></section>
+    </main>
+
+    <footer>
+        Projeto AV2 - Web Coding
+    </footer>
+
+    <script>
+        async function carregarLivros() {
+            const lista = document.getElementById("lista");
+            const status = document.getElementById("status");
+
+            try {
+                const resposta = await fetch("/livros");
+
+                if (!resposta.ok) {
+                    throw new Error("Erro ao consultar API");
+                }
+
+                const dados = await resposta.json();
+
+                status.textContent =
+                    dados.livros.length + " livros encontrados";
+
+                dados.livros.forEach(livro => {
+                    const card = document.createElement("article");
+                    card.className = "card";
+
+                    const etiqueta = document.createElement("span");
+                    etiqueta.className = "etiqueta";
+                    etiqueta.textContent = "LIVRO #" + livro.id;
+
+                    const titulo = document.createElement("h2");
+                    titulo.textContent = livro.titulo;
+
+                    const autor = document.createElement("p");
+                    autor.textContent = "Autor: " + livro.autor;
+
+                    const ano = document.createElement("p");
+                    ano.textContent = "Ano: " + livro.ano;
+
+                    card.append(etiqueta, titulo, autor, ano);
+                    lista.appendChild(card);
+                });
+
+            } catch (erro) {
+                status.textContent =
+                    "Erro ao carregar os livros. Verifique o servidor.";
+            }
+        }
+
+        carregarLivros();
+    </script>
+
+</body>
+</html>
